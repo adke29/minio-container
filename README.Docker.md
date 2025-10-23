@@ -1,17 +1,79 @@
-### Building and running your application
+# MinIO Docker Compose Setup
 
-When you're ready, start your application by running:
-`docker compose up --build`.
+This repository provides a simple **Docker Compose** configuration to run a **MinIO** object storage server locally.  
+MinIO is a high-performance, S3-compatible object storage solution that can be used for development, testing, or production environments.
 
-### Deploying your application to the cloud
+---
 
-First, build your image, e.g.: `docker build -t myapp .`.
-If your cloud uses a different CPU architecture than your development
-machine (e.g., you are on a Mac M1 and your cloud provider is amd64),
-you'll want to build the image for that platform, e.g.:
-`docker build --platform=linux/amd64 -t myapp .`.
+## 🧩 Overview
 
-Then, push it to your registry, e.g. `docker push myregistry.com/myapp`.
+The setup includes a single MinIO container exposing both:
 
-Consult Docker's [getting started](https://docs.docker.com/go/get-started-sharing/)
-docs for more detail on building and pushing.
+- **S3 API endpoint** — for programmatic access (`http://127.0.0.1:9000`)
+- **Web Console** — for managing storage visually (`http://127.0.0.1:9001`)
+
+The container is configured to persist data locally and will automatically restart unless manually stopped.
+
+---
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+| Variable              | Default Value | Description                         |
+| --------------------- | ------------- | ----------------------------------- |
+| `TZ`                  | `UTC`         | Sets container timezone             |
+| `MINIO_ROOT_USER`     | `root`        | Root username for the MinIO console |
+| `MINIO_ROOT_PASSWORD` | `password`    | Root password for the MinIO console |
+
+> ⚠️ **Important:** Change the default `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD` for security.
+
+---
+
+## 🗂️ Volume
+
+| Host Path | Container Path | Description                              |
+| --------- | -------------- | ---------------------------------------- |
+| `./data`  | `/data`        | Directory used by MinIO to store objects |
+
+Data persists on your host machine, so containers can be rebuilt without losing stored data.
+
+---
+
+## 🚀 Usage
+
+### 1. Start the service
+
+```bash
+docker compose up -d
+```
+
+### 2. Access the services
+
+- Web Console: http://127.0.0.1:9001
+  Log in with MINIO_ROOT_USER and MINIO_ROOT_PASSWORD
+
+- S3 API Endpoint: http://127.0.0.1:9000
+
+### 3. Stop the service
+
+```bash
+docker compose down
+```
+
+## 🛠️ Troubleshooting
+
+- If ports 9000 or 9001 are already in use, modify them in docker-compose.yaml.
+
+- Ensure docker and docker compose are installed and up-to-date.
+
+- Check container logs with:
+
+```bash
+docker logs minio
+```
+
+## 📚 References
+
+- [MinIO Documentation](https://docs.min.io/)
+- [Docker Hub: minio/minio](https://hub.docker.com/r/minio/minio)
