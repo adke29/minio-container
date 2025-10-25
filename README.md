@@ -1,4 +1,4 @@
-# MinIO Docker Compose Setup
+# [DEPRECATED] MinIO Docker Compose Setup
 
 This repository provides a simple **Docker Compose** configuration to run a **MinIO** object storage server locally.  
 MinIO is a high-performance, S3-compatible object storage solution that can be used for development, testing, or production environments.
