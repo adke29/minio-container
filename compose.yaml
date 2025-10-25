@@ -7,7 +7,7 @@ services:
       - 127.0.0.1:9000:9000 # S3 API
       - 127.0.0.1:9001:9001 # Web console
     volumes:
-      - ./data:/data
+      - ./volumes/minio:/data
     environment:
       TZ: ${TZ:-UTC}
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-root}
